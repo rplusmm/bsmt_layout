@@ -147,4 +147,21 @@
             document.getElementById(imageId).style.display = 'flex';
 
             // Afficher le bouton de retour
-           
+            document.getElementById('return-button').style.display = 'block';
+        }
+
+        // Fonction pour revenir au plan
+        function returnToPlan() {
+            // Masquer tous les conteneurs d'images
+            const images = document.querySelectorAll('.image-container');
+            images.forEach(image => (image.style.display = 'none'));
+
+            // Réafficher la carte
+            document.getElementById('map').style.display = 'block';
+
+            // Masquer le bouton de retour
+            document.getElementById('return-button').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
