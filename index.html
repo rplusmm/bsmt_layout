@@ -37,7 +37,7 @@
         }
 
         #return-button {
-            display: none; /* Masqué par défaut */
+            display: none;
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -49,22 +49,29 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            z-index: 1000; /* Toujours au-dessus */
+            z-index: 1000;
         }
 
         #return-button:hover {
             background-color: #2980b9;
         }
+
+        area {
+            cursor: pointer;
+        }
+
+        @media (pointer: coarse) {
+            area {
+                pointer-events: auto;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Plan de table -->
     <img id="plan" src="table_layout.jpeg" usemap="#image-map" alt="Plan de table">
 
-    <!-- Bouton de retour global -->
     <button id="return-button" onclick="returnToPlan()">Return to Layout</button>
 
-    <!-- Map des zones cliquables -->
     <map name="image-map">
         <area target="" alt="Table 02" title="Table 02" href="javascript:void(0)" onclick="showImage('image02')" coords="60,622,132,778" shape="rect">
         <area target="" alt="Table 03" title="Table 03" href="javascript:void(0)" onclick="showImage('image03')" coords="55,472,208,545" shape="rect">
@@ -88,7 +95,6 @@
         <area target="" alt="Table C9" title="Table C9" href="javascript:void(0)" onclick="showImage('imageC9')" coords="486,292,21" shape="circle">
     </map>
 
-    <!-- Conteneurs des images -->
     <div id="image02" class="image-container"><img src="/path/to/image02.jpg" alt="Table 02"></div>
     <div id="image03" class="image-container"><img src="/path/to/image03.jpg" alt="Table 03"></div>
     <div id="imageP1" class="image-container"><img src="/path/to/imageP1.jpg" alt="Table P1"></div>
@@ -112,31 +118,32 @@
 
     <script>
         function showImage(imageId) {
-            // Masquer le plan de table
             document.getElementById('plan').style.display = 'none';
-
-            // Masquer tous les conteneurs d'images
             const images = document.querySelectorAll('.image-container');
             images.forEach(image => image.style.display = 'none');
-
-            // Afficher le conteneur sélectionné
             document.getElementById(imageId).style.display = 'flex';
-
-            // Afficher le bouton de retour
             document.getElementById('return-button').style.display = 'block';
         }
 
         function returnToPlan() {
-            // Masquer tous les conteneurs d'images
             const images = document.querySelectorAll('.image-container');
             images.forEach(image => image.style.display = 'none');
-
-            // Réafficher le plan de table
             document.getElementById('plan').style.display = 'block';
-
-            // Masquer le bouton de retour
             document.getElementById('return-button').style.display = 'none';
         }
+
+        function attachTouchListeners() {
+            const areas = document.querySelectorAll('area');
+            areas.forEach(area => {
+                area.addEventListener('touchstart', function(event) {
+                    event.preventDefault();
+                    const targetId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showImage(targetId);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', attachTouchListeners);
     </script>
 </body>
 </html>
