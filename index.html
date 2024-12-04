@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan de Table Interactif</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            text-align: center;
+            background-color: #f8f9fa;
         }
 
-        #map {
-            width: 100%;
-            height: 100vh; /* La carte prend toute la hauteur de l'écran */
+        #plan {
+            display: block;
+            max-width: 100%;
+            margin: 0 auto;
         }
 
         .image-container {
@@ -35,7 +37,7 @@
         }
 
         #return-button {
-            display: none;
+            display: none; /* Masqué par défaut */
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -47,7 +49,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1000; /* Toujours au-dessus */
         }
 
         #return-button:hover {
@@ -56,8 +58,35 @@
     </style>
 </head>
 <body>
-    <!-- Carte Leaflet -->
-    <div id="map"></div>
+    <!-- Plan de table -->
+    <img id="plan" src="table_layout.jpeg" usemap="#image-map" alt="Plan de table">
+
+    <!-- Bouton de retour global -->
+    <button id="return-button" onclick="returnToPlan()">Return to Layout</button>
+
+    <!-- Map des zones cliquables -->
+    <map name="image-map">
+        <area target="" alt="Table 02" title="Table 02" href="javascript:void(0)" onclick="showImage('image02')" coords="60,622,132,778" shape="rect">
+        <area target="" alt="Table 03" title="Table 03" href="javascript:void(0)" onclick="showImage('image03')" coords="55,472,208,545" shape="rect">
+        <area target="" alt="Table P1" title="Table P1" href="javascript:void(0)" onclick="showImage('imageP1')" coords="53,182,128,339" shape="rect">
+        <area target="" alt="Table P2" title="Table P2" href="javascript:void(0)" onclick="showImage('imageP2')" coords="92,104,51" shape="circle">
+        <area target="" alt="Table P3" title="Table P3" href="javascript:void(0)" onclick="showImage('imageP3')" coords="357,139,205,66" shape="rect">
+        <area target="" alt="VIP Room" title="VIP Room" href="javascript:void(0)" onclick="showImage('imageVIP')" coords="638,180,1069,31" shape="rect">
+        <area target="" alt="Table A4" title="Table A4" href="javascript:void(0)" onclick="showImage('imageA4')" coords="697,199,833,273" shape="rect">
+        <area target="" alt="Table A3" title="Table A3" href="javascript:void(0)" onclick="showImage('imageA3')" coords="873,199,1014,270" shape="rect">
+        <area target="" alt="Table A1" title="Table A1" href="javascript:void(0)" onclick="showImage('imageA1')" coords="1138,261,1220,406" shape="rect">
+        <area target="" alt="Table A2" title="Table A2" href="javascript:void(0)" onclick="showImage('imageA2')" coords="1141,441,1214,576" shape="rect">
+        <area target="" alt="Table 01" title="Table 01" href="javascript:void(0)" onclick="showImage('image01')" coords="261,719,49" shape="circle">
+        <area target="" alt="Table C5" title="Table C5" href="javascript:void(0)" onclick="showImage('imageC5')" coords="328,361,22" shape="circle">
+        <area target="" alt="Table C1" title="Table C1" href="javascript:void(0)" onclick="showImage('imageC1')" coords="536,361,21" shape="circle">
+        <area target="" alt="Table C2" title="Table C2" href="javascript:void(0)" onclick="showImage('imageC2')" coords="488,361,23" shape="circle">
+        <area target="" alt="Table C3" title="Table C3" href="javascript:void(0)" onclick="showImage('imageC3')" coords="441,361,23" shape="circle">
+        <area target="" alt="Table C4" title="Table C4" href="javascript:void(0)" onclick="showImage('imageC4')" coords="392,361,20" shape="circle">
+        <area target="" alt="Table C6" title="Table C6" href="javascript:void(0)" onclick="showImage('imageC6')" coords="304,315,23" shape="circle">
+        <area target="" alt="Table C7" title="Table C7" href="javascript:void(0)" onclick="showImage('imageC7')" coords="390,293,23" shape="circle">
+        <area target="" alt="Table C8" title="Table C8" href="javascript:void(0)" onclick="showImage('imageC8')" coords="438,292,22" shape="circle">
+        <area target="" alt="Table C9" title="Table C9" href="javascript:void(0)" onclick="showImage('imageC9')" coords="486,292,21" shape="circle">
+    </map>
 
     <!-- Conteneurs des images -->
     <div id="image02" class="image-container"><img src="/path/to/image02.jpg" alt="Table 02"></div>
@@ -68,7 +97,7 @@
     <div id="imageVIP" class="image-container"><img src="/path/to/imageVIP.jpg" alt="VIP Room"></div>
     <div id="imageA4" class="image-container"><img src="/path/to/imageA4.jpg" alt="Table A4"></div>
     <div id="imageA3" class="image-container"><img src="/path/to/imageA3.jpg" alt="Table A3"></div>
-    <div id="imageA1" class="image-container"><img src="/path/to/imageA1.jpg" alt="Table A1"></div>
+    <div id="imageA1" class="image-container"><img src="./table_A1.jpeg" alt="Table A1"></div>
     <div id="imageA2" class="image-container"><img src="/path/to/imageA2.jpg" alt="Table A2"></div>
     <div id="image01" class="image-container"><img src="/path/to/image01.jpg" alt="Table 01"></div>
     <div id="imageC5" class="image-container"><img src="/path/to/imageC5.jpg" alt="Table C5"></div>
@@ -81,67 +110,14 @@
     <div id="imageC8" class="image-container"><img src="/path/to/imageC8.jpg" alt="Table C8"></div>
     <div id="imageC9" class="image-container"><img src="/path/to/imageC9.jpg" alt="Table C9"></div>
 
-    <!-- Bouton de retour -->
-    <button id="return-button" onclick="returnToPlan()">Retour au plan</button>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialisation de la carte Leaflet
-        const map = L.map('map', {
-            crs: L.CRS.Simple, // Utilise un système de coordonnées simples
-            minZoom: -1, // Permet un zoom-out au-delà de l'image
-            maxZoom: 2, // Limite le zoom-in
-            zoomControl: true
-        });
-
-        // Dimensions de l'image (ajustez selon votre image)
-        const bounds = [[0, 0], [1000, 1000]];
-
-        // Ajout de l'image comme arrière-plan de la carte
-        const image = L.imageOverlay('table_layout.jpeg', bounds).addTo(map);
-
-        // Ajuster la vue de la carte pour s'adapter à l'image
-        map.fitBounds(bounds);
-
-        // Ajouter des zones interactives
-        const areas = [
-            { id: 'image02', bounds: [[622, 60], [778, 132]], color: 'orange' },
-            { id: 'image03', bounds: [[472, 55], [545, 208]], color: 'blue' },
-            { id: 'imageP1', bounds: [[182, 53], [339, 128]], color: 'green' },
-            { id: 'imageP2', bounds: [[104, 92], [155, 143]], color: 'red' },
-            { id: 'imageP3', bounds: [[139, 357], [205, 422]], color: 'purple' },
-            { id: 'imageVIP', bounds: [[31, 638], [180, 1069]], color: 'gold' },
-            { id: 'imageA4', bounds: [[199, 697], [273, 833]], color: 'cyan' },
-            { id: 'imageA3', bounds: [[199, 873], [270, 1014]], color: 'teal' },
-            { id: 'imageA1', bounds: [[261, 1138], [406, 1220]], color: 'brown' },
-            { id: 'imageA2', bounds: [[441, 1141], [576, 1214]], color: 'lime' },
-            { id: 'image01', bounds: [[719, 261], [768, 310]], color: 'pink' },
-            { id: 'imageC5', bounds: [[361, 328], [383, 350]], color: 'violet' },
-            { id: 'imageC1', bounds: [[361, 536], [382, 557]], color: 'black' },
-            { id: 'imageC2', bounds: [[361, 488], [382, 509]], color: 'grey' },
-            { id: 'imageC3', bounds: [[361, 441], [382, 462]], color: 'blue' },
-            { id: 'imageC4', bounds: [[361, 392], [382, 413]], color: 'orange' },
-            { id: 'imageC6', bounds: [[315, 304], [338, 327]], color: 'purple' },
-            { id: 'imageC7', bounds: [[293, 390], [316, 413]], color: 'yellow' },
-            { id: 'imageC8', bounds: [[292, 438], [315, 461]], color: 'green' },
-            { id: 'imageC9', bounds: [[292, 486], [315, 509]], color: 'red' },
-        ];
-
-        // Création des rectangles interactifs
-        areas.forEach(area => {
-            L.rectangle(area.bounds, { color: area.color, weight: 1 })
-                .addTo(map)
-                .on('click', () => showImage(area.id)); // Affiche l'image correspondante
-        });
-
-        // Fonction pour afficher une image
         function showImage(imageId) {
-            // Masquer la carte
-            document.getElementById('map').style.display = 'none';
+            // Masquer le plan de table
+            document.getElementById('plan').style.display = 'none';
 
             // Masquer tous les conteneurs d'images
             const images = document.querySelectorAll('.image-container');
-            images.forEach(image => (image.style.display = 'none'));
+            images.forEach(image => image.style.display = 'none');
 
             // Afficher le conteneur sélectionné
             document.getElementById(imageId).style.display = 'flex';
@@ -150,14 +126,13 @@
             document.getElementById('return-button').style.display = 'block';
         }
 
-        // Fonction pour revenir au plan
         function returnToPlan() {
             // Masquer tous les conteneurs d'images
             const images = document.querySelectorAll('.image-container');
-            images.forEach(image => (image.style.display = 'none'));
+            images.forEach(image => image.style.display = 'none');
 
-            // Réafficher la carte
-            document.getElementById('map').style.display = 'block';
+            // Réafficher le plan de table
+            document.getElementById('plan').style.display = 'block';
 
             // Masquer le bouton de retour
             document.getElementById('return-button').style.display = 'none';
